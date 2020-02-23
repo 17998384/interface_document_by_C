@@ -3,7 +3,7 @@
 #include "interface_document.h"
 #include "interface_document_file.h"
 #include <Windows.h>
-#define COUNT 1000000
+#define COUNT 100000
 #define INTERFACE_BODYS_PATH "C:\\Users\\a1799\\Desktop\\interface_body.txt"
 #define INTERFACE_HEADS_PATH "C:\\Users\\a1799\\Desktop\\interface_head.txt"
 #define OUTPUT_FILE_PATH "C:\\Users\\a1799\\Desktop\\test_file.md"
@@ -32,7 +32,7 @@ void test_interface_document()
 	InterfaceDocument* interface_document = build_interface_document(INTERFACE_SIZE
 		, interface_bodys_str, interface_heads_str, interface_bodys, interface_heads);
 	//输出到文件
-	output_to_file(interface_document, OUTPUT_FILE_PATH, INTERFACE_DOCUMENT_TITLE);
+	//output_to_file(interface_document, OUTPUT_FILE_PATH, INTERFACE_DOCUMENT_TITLE);
 	printf("create success!\n");
 	delete_interface_document(interface_document);
 }
@@ -48,11 +48,11 @@ int main(void)
 {
 	for (int i = 0; i < COUNT; i++)
 	{
-		//test_interface_document();
+		test_interface_document();
 		//test_my_string();
 		//get_object_num("fdsfdsfdfdsfdsf\nfdfd", "\n");
 		//test_readfile();
-		Sleep(1);
+		//Sleep(1);
 	}
 	return 0;
 }

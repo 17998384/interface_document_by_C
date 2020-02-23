@@ -44,7 +44,7 @@ InterfaceDocument* build_interface_document(int num, String* interface_bodys_str
 InterfaceBody** parse_interface_body(String* interface_bodys_str, int interface_size)
 {
 	//分配空间
-	InterfaceBody** interface_bodys = (InterfaceBody**)malloc(sizeof(InterfaceBody) * interface_size);
+	InterfaceBody** interface_bodys = (InterfaceBody**)malloc(sizeof(InterfaceBody*) * interface_size);
 	check_memory(interface_bodys);
 	//分割出接口体字符串
 	char* next_interface_body_str = NULL;
@@ -63,7 +63,7 @@ InterfaceBody** parse_interface_body(String* interface_bodys_str, int interface_
 InterfaceHead** parse_interface_head(String* interface_heads_str, int interface_size)
 {
 	//分配空间
-	InterfaceHead** interface_heads = (InterfaceHead**)malloc(sizeof(InterfaceHead) * interface_size);
+	InterfaceHead** interface_heads = (InterfaceHead**)malloc(sizeof(InterfaceHead*) * interface_size);
 	check_memory(interface_heads);
 	//分割出接口头字符串
 	char* next_interface_head_str = NULL;
@@ -169,15 +169,15 @@ Object* build_object(char* object_str)
 
 ObjectParam* build_object_param(char* object_param_str)
 {
-	ObjectParam* object = (ObjectParam*)malloc(sizeof(ObjectParam));
-	object->param_type = my_split(object_param_str, " ");
+	ObjectParam* object_param = (ObjectParam*)malloc(sizeof(ObjectParam));
+	object_param->param_type = my_split(object_param_str, " ");
 	char* temp = my_split(NULL, " ");
-	object->param_name = my_split(temp, ";");
+	object_param->param_name = my_split(temp, ";");
 	temp = my_split(NULL, ";");
 	temp = my_split(temp, "//");
 	temp = my_split(NULL, "//");
-	object->param_annotation = temp == NULL ? "" : temp;
-	return object;
+	object_param->param_annotation = temp == NULL ? "" : temp;
+	return object_param;
 }
 
 void free_interface_head_memory(InterfaceHead** interface_heads, int size)
@@ -197,6 +197,7 @@ void free_interface_body_memory(InterfaceBody** interface_bodys, int size)
 		InterfaceBody* interface_body = interface_bodys[i];
 		free_general_object_memory(interface_body->request_objects, interface_body->request_object_size);
 		free_general_object_memory(interface_body->response_objects, interface_body->response_object_size);
+		free(interface_body);
 	}
 	free(interface_bodys);
 }
@@ -211,6 +212,7 @@ void free_general_object_memory(Object** _objects, int size)
 			ObjectParam* object_param = object->object_params[j];
 			free(object_param);
 		}
+		free(object->object_params);
 		free(object);
 	}
 	free(_objects);
