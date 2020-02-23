@@ -170,13 +170,15 @@ Object* build_object(char* object_str)
 ObjectParam* build_object_param(char* object_param_str)
 {
 	ObjectParam* object_param = (ObjectParam*)malloc(sizeof(ObjectParam));
-	object_param->param_type = my_split(object_param_str, " ");
-	char* temp = my_split(NULL, " ");
-	object_param->param_name = my_split(temp, ";");
-	temp = my_split(NULL, ";");
-	temp = my_split(temp, "//");
-	temp = my_split(NULL, "//");
-	object_param->param_annotation = temp == NULL ? "" : temp;
+	char* before_the_semicolon = my_split(object_param_str, ";");
+	char* after_the_semicolon = my_split(NULL, ";");
+	char* param_type = my_split(before_the_semicolon, " ");
+	char* param_name = my_split(NULL, " ");
+	char* param_annotation = my_split(after_the_semicolon, "//");
+	param_annotation = my_split(NULL, "//");
+	object_param->param_type = param_type;
+	object_param->param_name = param_name;
+	object_param->param_annotation = (param_annotation == NULL) ? "" : param_annotation;
 	return object_param;
 }
 

@@ -29,7 +29,7 @@ void create_interface_document_title(char* interface_document_title);
 void create_interface_document_head(InterfaceHead* interface_head, int num);
 
 //创建接口文档的体
-void create_interface_document_body(InterfaceBody* interface_body, int num);
+void create_interface_document_body(InterfaceBody* interface_body);
 
 //创建请求接口体
 void create_interface_document_general_body(Object* request_object);
@@ -38,8 +38,10 @@ void create_interface_document_general_body(Object* request_object);
 void create_interface_document_general_param(ObjectParam* object_param);
 
 //创建后端字符串(后端（针对系统级参数里面的data）)
-void create_interface_doucment_end_str();
+void create_interface_doucment_after_end_str();
 
+//接口结束,留下换行,清空缓存
+void create_interface_doucment_line_feed();
 
 void output_to_file(InterfaceDocument* interface_document, char* output_file_path, char* interface_document_title)
 {
@@ -57,7 +59,7 @@ void output_to_file(InterfaceDocument* interface_document, char* output_file_pat
 		//创建接口文档头
 		create_interface_document_head(interface_head, i);
 		//创建接口文档体
-		create_interface_document_body(interface_body, i);
+		create_interface_document_body(interface_body);
 	}
 	delete_string(cache);
 	fclose(out_put_file);
@@ -110,7 +112,7 @@ void create_interface_document_head(InterfaceHead* interface_head, int num)
 	fflush(out_put_file);
 }
 
-void create_interface_document_body(InterfaceBody* interface_body, int num)
+void create_interface_document_body(InterfaceBody* interface_body)
 {
 	//创建请求接口体
 	for (int i = 0, size = interface_body->request_object_size; i < size; i++)
@@ -119,7 +121,8 @@ void create_interface_document_body(InterfaceBody* interface_body, int num)
 		create_interface_document_general_body(request_object);
 		fputs(cache->buffer, out_put_file);
 	}
-	create_interface_doucment_end_str();
+	//创建后端提示语 eg:  后端（针对系统级参数里面的data）
+	create_interface_doucment_after_end_str();
 	//创建响应接口体
 	for (int i = 0, size = interface_body->response_object_size; i < size; i++)
 	{
@@ -127,9 +130,8 @@ void create_interface_document_body(InterfaceBody* interface_body, int num)
 		create_interface_document_general_body(response_object);
 		fputs(cache->buffer, out_put_file);
 	}
-	put_multi_row(cache->buffer, 4);
-	fputs(cache->buffer, out_put_file);
-	fflush(out_put_file);
+	//接口结束,留下换行,清空缓存
+	create_interface_doucment_line_feed();
 }
 
 void create_interface_document_general_body(Object* object)
@@ -151,16 +153,16 @@ void create_interface_document_general_param(ObjectParam* object_param)
 {
 	char** buffer = &cache->buffer;
 	strcat(*buffer, SEPARATOR);
-	strcat(*buffer, object_param->param_type);
-	strcat(*buffer, SEPARATOR);
 	strcat(*buffer, object_param->param_name);
+	strcat(*buffer, SEPARATOR);
+	strcat(*buffer, object_param->param_type);
 	strcat(*buffer, SEPARATOR);
 	strcat(*buffer, object_param->param_annotation);
 	strcat(*buffer, SEPARATOR);
 	strcat(*buffer, "\n");
 }
 
-void create_interface_doucment_end_str()
+void create_interface_doucment_after_end_str()
 {
 	string_clear(cache);
 	char** buffer = &cache->buffer;
@@ -171,5 +173,13 @@ void create_interface_doucment_end_str()
 	strcat(*buffer, "（针对系统级参数里面的data）");
 	put_multi_row(*buffer, 4);
 	fputs(*buffer,out_put_file);
+	fflush(out_put_file);
+}
+
+void create_interface_doucment_line_feed()
+{
+	string_clear(cache);
+	put_multi_row(cache->buffer, 4);
+	fputs(cache->buffer, out_put_file);
 	fflush(out_put_file);
 }
