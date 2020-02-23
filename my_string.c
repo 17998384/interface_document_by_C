@@ -1,3 +1,7 @@
+
+//Created by ¸ðÕñ¶« on 2020/02/23
+//Copyright	 2020 ¸ðÕñ¶«. All rights reserved.
+
 #define _CRT_SECURE_NO_WARNINGS
 #include "my_string.h"
 #define GROWTH_FACTOR 2

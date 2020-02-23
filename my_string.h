@@ -1,3 +1,7 @@
+
+//Created by ¸ğÕñ¶« on 2020/02/23
+//Copyright	 2020 ¸ğÕñ¶«. All rights reserved.
+
 #pragma once
 #include <string.h>
 typedef struct string

@@ -1,3 +1,7 @@
+
+//Created by ¸ðÕñ¶« on 2020/02/23
+//Copyright	 2020 ¸ðÕñ¶«. All rights reserved.
+
 #include <stdio.h>
 #include <stdlib.h>
 #include "exception.h"
