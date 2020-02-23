@@ -1,9 +1,10 @@
 #define _CRT_SECURE_NO_WARNINGS
 #include "my_string.h"
+#define GROWTH_FACTOR 2
 
 void string_dilatation(String* str)
 {
-	str->length = str->length * 2;
+	str->length = str->length * GROWTH_FACTOR;
 	char* new_buffer = (char*)malloc(sizeof(char) * str->length);
 	memset(new_buffer, NULL, str->length);
 	strcpy(new_buffer, str->buffer);
@@ -42,6 +43,12 @@ String* string_append(String* str, char* source)
 		string_dilatation(str);
 	}
 	strcat(str->buffer, source);
+}
+
+String* string_clear(String* str)
+{
+	memset(str->buffer, NULL, str->length);
+	return str;
 }
 
 void delete_string(String* str)

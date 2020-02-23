@@ -140,6 +140,7 @@
   <ItemGroup>
     <ClCompile Include="exception.c" />
     <ClCompile Include="interface_document.c" />
+    <ClCompile Include="interface_document_file.c" />
     <ClCompile Include="main.c" />
     <ClCompile Include="my_string.c" />
     <ClCompile Include="utils.c" />
@@ -147,6 +148,7 @@
   <ItemGroup>
     <ClInclude Include="exception.h" />
     <ClInclude Include="interface_document.h" />
+    <ClInclude Include="interface_document_file.h" />
     <ClInclude Include="my_string.h" />
     <ClInclude Include="utils.h" />
   </ItemGroup>

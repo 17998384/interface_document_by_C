@@ -16,5 +16,8 @@ int string_length(String* str);
 //×·¼Ó×Ö·û´®
 String* string_append(String* str, char* source);
 
+//Çå¿Õ×Ö·û´®
+String* string_clear(String* str);
+
 //É¾³ý×Ö·û´®
 void delete_string(String* str);
